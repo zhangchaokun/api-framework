@@ -75,5 +75,4 @@ go get -u github.com/swaggo/gin-swagger
 go get -u github.com/swaggo/gin-swagger/swaggerFiles
 
 
-
 ```
