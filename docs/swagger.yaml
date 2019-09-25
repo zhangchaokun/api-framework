@@ -1,0 +1,46 @@
+definitions:
+  ginapi.Response:
+    properties:
+      code:
+        type: integer
+      data:
+        type: object
+      msg:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: An example of gin
+  license:
+    name: MIT
+    url: https
+  termsOfService: https
+  title: Golang Gin API
+  version: "1.0"
+paths:
+  /auth:
+    get:
+      parameters:
+      - description: userName
+        in: query
+        name: username
+        required: true
+        type: string
+      - description: password
+        in: query
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ginapi.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ginapi.Response'
+      summary: 获取用户Token
+swagger: "2.0"
