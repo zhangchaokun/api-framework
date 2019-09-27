@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"api-framework/conf/excep"
-	"api-framework/utils"
+	"api-framework/helper/utils"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"time"

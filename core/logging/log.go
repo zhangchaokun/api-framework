@@ -1,7 +1,7 @@
 package logging
 
 import (
-	"api-framework/utils"
+	"api-framework/helper/utils"
 	"os"
 	"log"
 	"runtime"

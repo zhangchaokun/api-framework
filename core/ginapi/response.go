@@ -3,6 +3,7 @@ package ginapi
 import (
 	"api-framework/conf/excep"
 	"github.com/gin-gonic/gin"
+	"strings"
 )
 
 type Gin struct {
@@ -15,10 +16,15 @@ type Response struct {
 	Data interface{} `json:"data"`
 }
 
-func (g *Gin) Response(httpCode, errCode int, data interface{}) {
-	g.C.JSON(httpCode, Response{
+func (g *Gin) Response(httpCode, errCode int, data interface{}, msg string) {
+	msg = strings.TrimSpace(msg)
+	if msg == "" {
+		msg = excep.GetCodeMsg(errCode)
+	}
+	resp := Response{
 		Code: errCode,
-		Msg:  excep.GetCodeMsg(errCode),
+		Msg:  msg,
 		Data: data,
-	})
+	}
+	g.C.JSON(httpCode, resp)
 }

@@ -7,9 +7,15 @@ import (
 	"api-framework/models"
 	"api-framework/store/gredis"
 	"fmt"
+	"log"
 	"net/http"
+	"os"
+	"os/signal"
+	"time"
+	"context"
 )
 
+/*
 func Run() {
 	loader()
 
@@ -26,30 +32,22 @@ func Run() {
 	_ = s.ListenAndServe()
 
 }
-
-func loader() {
-	config.InitConfig()
-	logging.Setup()
-	if config.AppConfig.UseDatabase {
-		models.InitModel()
-	}
-	if config.AppConfig.UseRedis {
-		_ = gredis.InitRedis()
-	}
-}
+*/
 
 /**
 endless优雅重启
  */
 /*
 func main() {
-	endless.DefaultReadTimeOut    = setting.ReadTimeout
-	endless.DefaultWriteTimeOut   = setting.WriteTimeout
+	loader()
+
+	endless.DefaultReadTimeOut    = config.ServerConfig.ReadTimeout
+	endless.DefaultWriteTimeOut   = config.ServerConfig.WriteTimeout
 	endless.DefaultMaxHeaderBytes = 1 << 20
 
-	endPoint := fmt.Sprintf(":%d", setting.HTTPPort)
+	endPoint := fmt.Sprintf(":%d", config.ServerConfig.HttpPort)
 
-	server := endless.NewServer(endPoint, routers.InitRouter())
+	server := endless.NewServer(endPoint, actions.InitRouter())
 	server.BeforeBegin = func(add string) {
 		log.Printf("Actual pid is %d", syscall.Getpid())
 	}
@@ -60,19 +58,21 @@ func main() {
 }
 */
 
+
 /**
 http.Server - Shutdown() 优雅重启
 */
-/*
-func main() {
 
-	router := routers.InitRouter()
+func Run() {
+
+	loader()
+	router := actions.InitRouter()
 
 	s := &http.Server{
-		Addr:           fmt.Sprintf(":%d", setting.HTTPPort),
+		Addr:           fmt.Sprintf(":%d", config.ServerConfig.HttpPort),
 		Handler:        router,
-		ReadTimeout:    setting.ReadTimeout,
-		WriteTimeout:   setting.WriteTimeout,
+		ReadTimeout:    config.ServerConfig.ReadTimeout,
+		WriteTimeout:   config.ServerConfig.WriteTimeout,
 		MaxHeaderBytes: 1 << 20,
 	}
 
@@ -93,5 +93,15 @@ func main() {
 	}
 	log.Println("Server exiting")
 }
-*/
 
+
+func loader() {
+	config.InitConfig()
+	logging.Setup()
+	if config.AppConfig.UseDatabase {
+		models.InitModel()
+	}
+	if config.AppConfig.UseRedis {
+		_ = gredis.InitRedis()
+	}
+}

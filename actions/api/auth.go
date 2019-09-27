@@ -4,10 +4,16 @@ import (
 	"api-framework/conf/excep"
 	"api-framework/core/ginapi"
 	"api-framework/service/auth_service"
-	"api-framework/utils"
+	"api-framework/helper/utils"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"web/gin-blog/pkg/e"
 )
+
+type auth struct {
+	Username string `form:"username" valid:"Required; MaxSize(30)"`
+	Password string `form:"password" valid:"Required; MaxSize(50)"`
+}
 
 // @Summary 获取用户Token
 // @Produce  json
@@ -18,39 +24,37 @@ import (
 // @Router /auth [get]
 func GetAuth(c *gin.Context) {
 	ginApi := ginapi.Gin{C: c}
-	//valid := validation.Validation{}
+
 
 	username := c.Query("username")
 	password := c.Query("password")
 
-	/*
-		a := auth{Username: username, Password: password}
-		ok, _ := valid.Valid(&a)
 
-		if !ok {
-			app.MarkErrors(valid.Errors) //logging.Info()
-			appG.Response(http.StatusOK, e.INVALID_PARAMS, nil)
-			return
-		}
-	*/
+	form := auth{Username: username, Password: password}
+	httpCode, errCode, msg := ginapi.BindAndValid(c, &form)
+	if errCode != e.SUCCESS {
+		ginApi.Response(httpCode, errCode, nil,msg)
+		return
+	}
+
 
 	authService := auth_service.Auth{Username: username, Password: password}
 	isExist, err := authService.Check()
 	if err != nil {
-		ginApi.Response(http.StatusOK, excep.ERROR_AUTH_CHECK_TOKEN_FAIL, nil)
+		ginApi.Response(http.StatusOK, excep.ERROR_AUTH_CHECK_TOKEN_FAIL, nil, err.Error())
 		return
 	}
 
 	if !isExist {
-		ginApi.Response(http.StatusOK, excep.ERROR_AUTH, nil)
+		ginApi.Response(http.StatusOK, excep.ERROR_AUTH, nil, "")
 		return
 	}
 
 	token, err := utils.GenerateToken(username, password)
 	if err != nil {
-		ginApi.Response(http.StatusOK, excep.ERROR_AUTH_TOKEN, nil)
+		ginApi.Response(http.StatusOK, excep.ERROR_AUTH_TOKEN, nil, "")
 		return
 	}
 
-	ginApi.Response(http.StatusOK, excep.SUCCESS, map[string]string{"token": token,})
+	ginApi.Response(http.StatusOK, excep.SUCCESS, map[string]string{"token": token,},"")
 }
