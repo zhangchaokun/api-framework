@@ -6,6 +6,8 @@ import (
 	"api-framework/core/logging"
 	"api-framework/models"
 	"api-framework/store/gredis"
+	"api-framework/store/mongo"
+	"api-framework/store/mq/rabbit"
 	"fmt"
 	"log"
 	"net/http"
@@ -98,10 +100,20 @@ func Run() {
 func loader() {
 	config.InitConfig()
 	logging.Setup()
+
 	if config.AppConfig.UseDatabase {
 		models.InitModel()
 	}
+
 	if config.AppConfig.UseRedis {
 		_ = gredis.InitRedis()
+	}
+
+	if config.AppConfig.UseMongo {
+		mongo.InitMongo()
+	}
+
+	if config.AppConfig.UseRabbitMQ {
+		rabbit.Init()
 	}
 }

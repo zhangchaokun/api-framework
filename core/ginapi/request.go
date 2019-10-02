@@ -13,7 +13,6 @@ var valid validation.Validation
 
 func BindAndValid(c *gin.Context, form interface{}) (int, int,string) {
 	err := c.Bind(form)
-	fmt.Println("ddddd")
 	if err != nil {
 		fmt.Println(err)
 		return http.StatusBadRequest, excep.INVALID_PARAMS, err.Error()

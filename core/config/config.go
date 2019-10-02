@@ -9,6 +9,8 @@ import (
 type app struct {
 	UseDatabase bool
 	UseRedis    bool
+	UseMongo    bool
+	UseRabbitMQ bool
 
 	JwtSecret  string
 	PrefixUrl  string
@@ -46,11 +48,24 @@ type redis struct {
 	IdleTimeout time.Duration
 }
 
+
+type mongo struct {
+	URL      string
+	Database string
+}
+
+type rabbit struct {
+	RabbitURL string
+}
+
+
 var (
 	AppConfig      = &app{}
 	ServerConfig   = &server{}
 	DatabaseConfig = &database{}
 	RedisConfig    = &redis{}
+	MongoConfig    = &mongo{}
+	RabbitConfig   = &rabbit{}
 
 	cfg *ini.File
 )
@@ -66,6 +81,8 @@ func InitConfig() {
 	iniMapTo("server", ServerConfig)
 	iniMapTo("database", DatabaseConfig)
 	iniMapTo("redis", RedisConfig)
+	iniMapTo("mongo", MongoConfig)
+	iniMapTo("mongo", RabbitConfig)
 
 	ServerConfig.ReadTimeout = ServerConfig.ReadTimeout * time.Second
 	ServerConfig.WriteTimeout = ServerConfig.ReadTimeout * time.Second

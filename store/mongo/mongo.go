@@ -1,15 +1,15 @@
 package mongo
 
+import (
+	"api-framework/core/config"
+	"github.com/globalsign/mgo"
+	"fmt"
+	"os"
+)
 
-//var MongoDB *mgo.Database
+var MongoDB *mgo.Database
 
-/*
- * mgo文档 http://labix.org/mgo
- * https://godoc.org/gopkg.in/mgo.v2
- * https://godoc.org/gopkg.in/mgo.v2/bson
- * https://godoc.org/gopkg.in/mgo.v2/txn
- */
-/*
+
 func InitMongo() {
 	if config.MongoConfig.URL == "" {
 		return
@@ -19,8 +19,7 @@ func InitMongo() {
 		fmt.Println(err.Error())
 		os.Exit(-1)
 	}
-	// Optional. Switch the session to a monotonic behavior.
+
 	session.SetMode(mgo.Monotonic, true)
 	MongoDB = session.DB(config.MongoConfig.Database)
 }
-*/
