@@ -3,11 +3,16 @@
 ```
 
 ---actions
+------api
 ------routers.go
 ---conf
 ------app.ini
 ------excep
 ---core
+------app
+------config
+------ginapi
+------logging
 ---helper
 ------utils
 ---library
@@ -17,6 +22,9 @@
 ---runtime
 ---service
 ---store
+------gredis
+------mongo
+------mq
 ---main.go
 
 
@@ -92,7 +100,6 @@ go get -u -v github.com/silenceper/gowatch
 go get -u -v github.com/swaggo/swag/cmd/swag
 go get -u github.com/swaggo/gin-swagger
 go get -u github.com/swaggo/gin-swagger/swaggerFiles
-
 
 
 ```
