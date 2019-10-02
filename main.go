@@ -1,8 +1,6 @@
 package main
 
-import (
-	"api-framework/core/app"
-)
+import "api-framework/core/app"
 
 // @title Golang Gin API
 // @version 1.0

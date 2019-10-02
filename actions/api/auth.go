@@ -3,11 +3,10 @@ package api
 import (
 	"api-framework/conf/excep"
 	"api-framework/core/ginapi"
-	"api-framework/service/auth_service"
 	"api-framework/helper/utils"
+	"api-framework/service/auth_service"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"web/gin-blog/pkg/e"
 )
 
 type auth struct {
@@ -32,7 +31,7 @@ func GetAuth(c *gin.Context) {
 
 	form := auth{Username: username, Password: password}
 	httpCode, errCode, msg := ginapi.BindAndValid(c, &form)
-	if errCode != e.SUCCESS {
+	if errCode != excep.SUCCESS {
 		ginApi.Response(httpCode, errCode, nil,msg)
 		return
 	}

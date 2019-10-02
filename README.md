@@ -68,6 +68,7 @@
 go get -u -v github.com/gin-gonic/gin
 go get -u -v github.com/go-ini/ini
 go get -u -v github.com/jinzhu/gorm
+go get -u -v github.com/dgrijalva/jwt-go
 
 下面是几个常用的验证，这里用第一个
 go get -u -v github.com/astaxie/beego/validation
@@ -75,7 +76,9 @@ go get -u -v github.com/go-playground/validator
 go get -u -v github.com/asaskevich/govalidator
 
 go get -u -v github.com/gomodule/redigo/redis
-go get -u -v github.com/dgrijalva/jwt-go
+go get -u -v go get gopkg.in/mgo.v2
+go get -u -v github.com/Shopify/sarama
+
 go get -u -v github.com/unknwon/com
 go get -u -v github.com/oxequa/realize
 
