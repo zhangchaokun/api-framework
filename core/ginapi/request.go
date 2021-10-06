@@ -9,8 +9,6 @@ import (
 	"net/http"
 )
 
-var valid validation.Validation
-
 func BindAndValid(c *gin.Context, form interface{}) (int, int,string) {
 	err := c.Bind(form)
 	if err != nil {
@@ -18,6 +16,7 @@ func BindAndValid(c *gin.Context, form interface{}) (int, int,string) {
 		return http.StatusBadRequest, excep.INVALID_PARAMS, err.Error()
 	}
 
+	valid := validation.Validation{}
 	check, err := valid.Valid(form)
 	if err != nil {
 		return http.StatusInternalServerError, excep.ERROR, err.Error()

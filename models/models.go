@@ -1,20 +1,20 @@
 package models
 
 import (
+	"api-framework/core/config"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	"time"
-	"api-framework/core/config"
 )
 
 var db *gorm.DB
 
 type Model struct {
-	ID         int `gorm:"primary_key" json:"id"`
-	CreatedAt  int `json:"created_on"`
-	ModifiedAt int `json:"modified_on"`
-	DeletedAt  int `json:"deleted_on"`
+	ID        int       `gorm:"primary_key" json:"id"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+	DeletedAt time.Time `json:"deleted_at"`
 }
 
 func InitModel() {
@@ -50,13 +50,13 @@ func updateTimeStampForCreateCallback(scope *gorm.Scope) {
 		nowTime := time.Now().Unix()
 		if createTimeField, ok := scope.FieldByName("CreatedAt"); ok {
 			if createTimeField.IsBlank {
-				createTimeField.Set(nowTime)
+				_ = createTimeField.Set(nowTime)
 			}
 		}
 
-		if modifyTimeField, ok := scope.FieldByName("ModifiedAt"); ok {
-			if modifyTimeField.IsBlank {
-				modifyTimeField.Set(nowTime)
+		if updateTimeField, ok := scope.FieldByName("UpdatedAt"); ok {
+			if updateTimeField.IsBlank {
+				_ = updateTimeField.Set(nowTime)
 			}
 		}
 	}
@@ -65,7 +65,7 @@ func updateTimeStampForCreateCallback(scope *gorm.Scope) {
 
 func updateTimeStampForUpdateCallback(scope *gorm.Scope) {
 	if _, ok := scope.Get("gorm:update_column"); !ok {
-		scope.SetColumn("ModifiedAt", time.Now().Unix())
+		_ = scope.SetColumn("UpdatedAt", time.Now().Unix())
 	}
 }
 
